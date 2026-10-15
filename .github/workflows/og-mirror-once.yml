@@ -1,0 +1,17 @@
+name: og-mirror-once
+on: push
+permissions:
+  contents: write
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy crm branch from the fork into this repo
+        env:
+          GH_TOKEN_FOR_PUSH: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          git clone --bare --no-tags --branch crm https://github.com/wfwl2026131/tdesktop.git src.git
+          cd src.git
+          git push --force "https://x-access-token:${GH_TOKEN_FOR_PUSH}@github.com/${{ github.repository }}.git" refs/heads/crm:refs/heads/crm
+          echo "mirror finished"
