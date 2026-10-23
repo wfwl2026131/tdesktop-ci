@@ -14,6 +14,8 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <memory>
 
+class QShowEvent;
+
 namespace style {
 struct ScrollArea;
 } // namespace style
@@ -68,6 +70,13 @@ private:
 	void buildNav(not_null<Ui::VerticalLayout*> nav);
 	void select(int index);
 
+	// Re-applies the navigation geometry: the scroll bar of the column and the
+	// scroll range of its wheel are both computed before the window has a
+	// size, so they are recomputed once it is on screen.
+	void refreshNav();
+
+	void showEvent(QShowEvent *e) override;
+
 	// Escape hides the window instead of closing it, so that the instance
 	// survives for the next Show() to reuse.
 	void reject() override;
@@ -79,7 +88,6 @@ private:
 	const std::unique_ptr<style::ScrollArea> _scrollStyle;
 
 	const std::unique_ptr<Nav> _nav;
-
 };
 
 } // namespace Deep

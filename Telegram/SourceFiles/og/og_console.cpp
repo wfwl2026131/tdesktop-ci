@@ -15,7 +15,6 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "ui/qt_object_factory.h"
 #include "ui/rp_widget.h"
 #include "ui/widgets/buttons.h"
-#include "ui/widgets/labels.h"
 #include "ui/widgets/scroll_area.h"
 #include "ui/wrap/vertical_layout.h"
 #include "window/window_session_controller.h"
@@ -26,8 +25,12 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_window.h"
 
 #include <QtCore/QPointer>
+#include <QtCore/QTimer>
 #include <QtGui/QColor>
+#include <QtGui/QFont>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QScrollBar>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QVBoxLayout>
 
@@ -98,18 +101,35 @@ constexpr auto kAutoReplyIndex = 6;
 
 // Placeholder body of a navigation entry: the entry name and the one line that
 // says the feature is not built yet. No invented form and no fake buttons.
+//
+// QLabel, not Ui::FlatLabel: the latter is an RpWidget that sizes itself only
+// through resizeGetHeight() and has no size hint, so a plain QVBoxLayout gives
+// it a width of zero, its height collapses and nothing is painted or exposed
+// to the accessibility tree. QLabel has a real size hint, and the acceptance
+// run reads the page by its text.
 QWidget *MakePlaceholderPage(QWidget *parent, const char *navKey) {
 	const auto page = new QWidget(parent);
 	const auto layout = new QVBoxLayout(page);
 	layout->setContentsMargins(24, 24, 24, 24);
-	layout->addWidget(new Ui::FlatLabel(
-		page,
-		OG::Tr::Lookup(navKey),
-		st::boxTitle));
-	layout->addWidget(new Ui::FlatLabel(
-		page,
-		OG::Tr::Lookup(kNotImplementedKey),
-		st::defaultFlatLabel));
+	layout->setSpacing(8);
+
+	const auto title = new QLabel(OG::Tr::Lookup(navKey), page);
+	auto titleFont = title->font();
+	if (titleFont.pointSizeF() > 0) {
+		titleFont.setPointSizeF(titleFont.pointSizeF() + 5);
+	}
+	titleFont.setBold(true);
+	title->setFont(titleFont);
+	layout->addWidget(title);
+
+	const auto body = new QLabel(OG::Tr::Lookup(kNotImplementedKey), page);
+	auto bodyFont = body->font();
+	if (bodyFont.pointSizeF() > 1.) {
+		bodyFont.setPointSizeF(bodyFont.pointSizeF() - 1);
+	}
+	body->setFont(bodyFont);
+	layout->addWidget(body);
+
 	layout->addStretch(1);
 	return page;
 }
@@ -118,6 +138,8 @@ QWidget *MakePlaceholderPage(QWidget *parent, const char *navKey) {
 
 struct ConsoleWindowQt::Nav {
 	QStackedWidget *stack = nullptr;
+	QPointer<Ui::ScrollArea> scroll;
+	QPointer<Ui::VerticalLayout> content;
 	std::vector<not_null<Ui::SettingsButton*>> buttons;
 	int current = 0;
 };
@@ -202,6 +224,40 @@ void ConsoleWindowQt::reject() {
 	hide();
 }
 
+void ConsoleWindowQt::showEvent(QShowEvent *e) {
+	QDialog::showEvent(e);
+	// Both numbers of the column are computed before the window has a size:
+	// the bar of a Ui::ScrollArea is placed in the resize event of the area,
+	// and the range Qt keeps for the wheel comes from the content widget at
+	// the moment it enters the area. Neither has run with the real geometry
+	// yet, so the bar stayed hidden (updateBar() saw a zero height) and the
+	// wheel had nothing to move. Redo it here, once the layout is applied,
+	// and once more from the event loop in case the layout pass lands later.
+	refreshNav();
+	QTimer::singleShot(0, this, [=] { refreshNav(); });
+}
+
+void ConsoleWindowQt::refreshNav() {
+	const auto scroll = _nav->scroll.data();
+	if (!scroll) {
+		return;
+	}
+	if (const auto content = _nav->content.data()) {
+		content->resizeToWidth(kNavContentWidth);
+	}
+
+	// The area computes its range from the content height itself every time it
+	// paints, so its number is the truth for this window; the Qt bar is what
+	// the wheel moves and what updateBar() measures, and it was left with the
+	// range of an empty area. Handing the same number over fixes the wheel and
+	// makes the range change run updateBar() with the real bar geometry.
+	const auto top = scroll->scrollTopMax();
+	if (scroll->verticalScrollBar()->maximum() != top) {
+		scroll->verticalScrollBar()->setMaximum(top);
+	}
+	scroll->updateBars();
+}
+
 void ConsoleWindowQt::setupContent() {
 	const auto layout = new QHBoxLayout(this);
 	layout->setContentsMargins(kSideMargin, 0, kSideMargin, 0);
@@ -226,7 +282,15 @@ void ConsoleWindowQt::setupContent() {
 	// the viewport width, so the bar does not paint over their right edge.
 	navRaw->resizeToWidth(kNavContentWidth);
 	scroll->setOwnedWidget(std::move(nav));
+	// Applied a second time now that the widget lives in the viewport: the
+	// area installs its event filter on the widget in setWidget(), and only
+	// from then on does a resize of the content update the range Qt keeps for
+	// the wheel.
+	navRaw->resizeToWidth(kNavContentWidth);
 	layout->addWidget(scroll);
+
+	_nav->scroll = scroll;
+	_nav->content = navRaw;
 
 	const auto stack = new QStackedWidget(this);
 	stack->setFixedWidth(kStackWidth);
