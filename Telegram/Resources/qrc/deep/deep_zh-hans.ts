@@ -90,161 +90,115 @@
         <source>Title</source>
         <translation>控制台</translation>
     </message>
+</context>
+<context>
+    <name>ConsoleNav</name>
     <message>
-        <source>Seat grid hint</source>
-        <translation>Seat grid: green = online, grey = free, red = expired (M1 static)</translation>
+        <source>Puppet Chat</source>
+        <translation>🤖 话术炒群</translation>
     </message>
     <message>
-        <source>Features</source>
-        <translation>Features (22)</translation>
+        <source>Copy Chat</source>
+        <translation>📋 复制炒群</translation>
     </message>
     <message>
-        <source>Actions</source>
-        <translation>Action area: Mass Send DM v2 (mass_send_dm_v2)</translation>
+        <source>AI Original Chat</source>
+        <translation>🧠 AI原创炒群</translation>
     </message>
     <message>
-        <source>Action fields</source>
-        <translation>Media + text / load balance / daily cap / scheduled start / thread count (M2 wires each field)</translation>
+        <source>AI Comment</source>
+        <translation>💬 AI智能评论</translation>
     </message>
     <message>
-        <source>Start Task</source>
-        <translation>Start Task / static sample</translation>
+        <source>AI Channel Repost</source>
+        <translation>📦 AI搬运频道</translation>
     </message>
     <message>
-        <source>Stop Task</source>
-        <translation>Stop Task / static sample</translation>
-    </message>
-    <message>
-        <source>M2 placeholder</source>
-        <translation>M2 placeholder</translation>
-    </message>
-    <message>
-        <source>Team</source>
-        <translation>Team</translation>
-    </message>
-    <message>
-        <source>Team value</source>
-        <translation>Officegram (M2: /xxloginv3 team_name)</translation>
-    </message>
-    <message>
-        <source>User</source>
-        <translation>User</translation>
-    </message>
-    <message>
-        <source>User value</source>
-        <translation>alice (static sample / current account)</translation>
-    </message>
-    <message>
-        <source>Seat</source>
-        <translation>Seat</translation>
-    </message>
-    <message>
-        <source>Seat value</source>
-        <translation>200 / grid 300 (seat: live /get-account-info value)</translation>
-    </message>
-    <message>
-        <source>Expire</source>
-        <translation>Expire</translation>
-    </message>
-    <message>
-        <source>Expire value</source>
-        <translation>Permanent (expire_time 2147483647 / private build)</translation>
-    </message>
-    <message>
-        <source>Pointcard</source>
-        <translation>Pointcard</translation>
-    </message>
-    <message>
-        <source>Pointcard value</source>
-        <translation>Not activated (renew: /agent_user_activate_pointcard)</translation>
-    </message>
-    <message>
-        <source>Red Packet</source>
-        <translation>Red Packet</translation>
-    </message>
-    <message>
-        <source>Cross Trading</source>
-        <translation>Cross Trading</translation>
-    </message>
-    <message>
-        <source>Mass Send DM v2</source>
-        <translation>Mass Send DM v2</translation>
-    </message>
-    <message>
-        <source>Add Contacts</source>
-        <translation>Add Contacts</translation>
-    </message>
-    <message>
-        <source>Batch Invite</source>
-        <translation>Batch Invite</translation>
-    </message>
-    <message>
-        <source>Puppet Chat v2</source>
-        <translation>Puppet Chat v2</translation>
-    </message>
-    <message>
-        <source>Translation</source>
-        <translation>Translation</translation>
-    </message>
-    <message>
-        <source>Batch Pull v2</source>
-        <translation>Batch Pull v2</translation>
-    </message>
-    <message>
-        <source>Group Manager</source>
-        <translation>Group Manager</translation>
-    </message>
-    <message>
-        <source>Workflow</source>
-        <translation>Workflow</translation>
+        <source>Mass Send</source>
+        <translation>📢 群发消息</translation>
     </message>
     <message>
         <source>Auto Reply</source>
-        <translation>Auto Reply</translation>
+        <translation>🔄 自动回复</translation>
     </message>
     <message>
-        <source>Client CRM Profile</source>
-        <translation>Client CRM Profile</translation>
+        <source>Watch Chat</source>
+        <translation>👀 监听聊天</translation>
     </message>
     <message>
-        <source>Account Hosting</source>
-        <translation>Account Hosting</translation>
+        <source>Batch Join</source>
+        <translation>👥 批量加群</translation>
     </message>
     <message>
-        <source>Multi-Account Manager</source>
-        <translation>Multi-Account Manager</translation>
+        <source>Batch Login</source>
+        <translation>🛅 批量上号</translation>
     </message>
     <message>
-        <source>Anti-Link Groups</source>
-        <translation>Anti-Link Groups</translation>
+        <source>Batch Rename</source>
+        <translation>🔠 批量改名</translation>
     </message>
     <message>
-        <source>Avatar Cache</source>
-        <translation>Avatar Cache</translation>
+        <source>Batch Invite</source>
+        <translation>🔂 批量拉人</translation>
     </message>
     <message>
-        <source>Multi-Account Edit State</source>
-        <translation>Multi-Account Edit State</translation>
+        <source>Filter Phone</source>
+        <translation>⚖️ 筛选手机</translation>
     </message>
     <message>
-        <source>Seat Sequence</source>
-        <translation>Seat Sequence</translation>
+        <source>Filter Group</source>
+        <translation>🧮 筛选群组</translation>
     </message>
     <message>
-        <source>Todo Queue</source>
-        <translation>Todo Queue</translation>
+        <source>Video Manage</source>
+        <translation>🎥 视频管理</translation>
     </message>
     <message>
-        <source>Pointcard Renewal</source>
-        <translation>Pointcard Renewal</translation>
+        <source>Proxy Config</source>
+        <translation>📶 代理配置</translation>
     </message>
     <message>
-        <source>Notice Center</source>
-        <translation>Notice Center</translation>
+        <source>Batch Contacts</source>
+        <translation>➕ 批量联系人</translation>
     </message>
     <message>
-        <source>Runtime Log</source>
-        <translation>Runtime Log</translation>
+        <source>Batch Invite v2</source>
+        <translation>🧲 批量拉人v2</translation>
+    </message>
+    <message>
+        <source>Mass DM v2</source>
+        <translation>📨 群发私信v2</translation>
+    </message>
+    <message>
+        <source>Puppet Chat v2</source>
+        <translation>🤖 话术炒群v2</translation>
+    </message>
+    <message>
+        <source>Auto Marketing</source>
+        <translation>🧩 自动营销</translation>
+    </message>
+    <message>
+        <source>Keep Online</source>
+        <translation>🟢 保持在线</translation>
+    </message>
+    <message>
+        <source>Advanced Features</source>
+        <translation>✨ 高级功能</translation>
+    </message>
+    <message>
+        <source>Auto Script</source>
+        <translation>📜 自动脚本</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>⚙️ 设置</translation>
+    </message>
+</context>
+<context>
+    <name>ConsolePlaceholder</name>
+    <message>
+        <source>Not Implemented</source>
+        <translation>该功能尚未实现</translation>
     </message>
 </context>
 <context>

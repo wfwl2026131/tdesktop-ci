@@ -47,19 +47,29 @@ void ClearLayout(QVBoxLayout *layout) {
 
 AutoReplyPageWindow::AutoReplyPageWindow(
 	QWidget *parent,
-	not_null<Window::SessionController*> controller)
+	not_null<Window::SessionController*> controller,
+	bool embedded)
 : QDialog(parent) {
 	// The controller is part of the signature for parity with the other
 	// pages; the page itself talks to the store only.
 	Q_UNUSED(controller);
 
-	setWindowTitle(Tr::Lookup("AutoReplyPage::Title"));
-	setWindowFlags(
-		Qt::Dialog
-		| Qt::WindowTitleHint
-		| Qt::WindowSystemMenuHint
-		| Qt::WindowCloseButtonHint);
-	resize(kWidth, kHeight);
+	// Embedded mode is the console page stack: the title, the window flags and
+	// the fixed size belong to a top level page, and a page that lives inside
+	// the stack must not carry any of them. QDialog is a window by default, so
+	// the flags are cleared to a plain child widget instead of leaving the
+	// question to the reparenting rules of the stack.
+	if (!embedded) {
+		setWindowTitle(Tr::Lookup("AutoReplyPage::Title"));
+		setWindowFlags(
+			Qt::Dialog
+			| Qt::WindowTitleHint
+			| Qt::WindowSystemMenuHint
+			| Qt::WindowCloseButtonHint);
+		resize(kWidth, kHeight);
+	} else {
+		setWindowFlags(Qt::Widget);
+	}
 	setupContent();
 	rebuild();
 }

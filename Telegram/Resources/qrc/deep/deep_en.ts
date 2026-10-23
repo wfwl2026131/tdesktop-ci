@@ -54,161 +54,115 @@
         <source>Title</source>
         <translation>Console</translation>
     </message>
+</context>
+<context>
+    <name>ConsoleNav</name>
     <message>
-        <source>Seat grid hint</source>
-        <translation>Seat grid: green = online, grey = free, red = expired (M1 static)</translation>
+        <source>Puppet Chat</source>
+        <translation>Puppet Chat</translation>
     </message>
     <message>
-        <source>Features</source>
-        <translation>Features (22)</translation>
+        <source>Copy Chat</source>
+        <translation>Copy Chat</translation>
     </message>
     <message>
-        <source>Actions</source>
-        <translation>Action area: Mass Send DM v2 (mass_send_dm_v2)</translation>
+        <source>AI Original Chat</source>
+        <translation>AI Original Chat</translation>
     </message>
     <message>
-        <source>Action fields</source>
-        <translation>Media + text / load balance / daily cap / scheduled start / thread count (M2 wires each field)</translation>
+        <source>AI Comment</source>
+        <translation>AI Comment</translation>
     </message>
     <message>
-        <source>Start Task</source>
-        <translation>Start Task / static sample</translation>
+        <source>AI Channel Repost</source>
+        <translation>AI Channel Repost</translation>
     </message>
     <message>
-        <source>Stop Task</source>
-        <translation>Stop Task / static sample</translation>
-    </message>
-    <message>
-        <source>M2 placeholder</source>
-        <translation>M2 placeholder</translation>
-    </message>
-    <message>
-        <source>Team</source>
-        <translation>Team</translation>
-    </message>
-    <message>
-        <source>Team value</source>
-        <translation>Officegram (M2: /xxloginv3 team_name)</translation>
-    </message>
-    <message>
-        <source>User</source>
-        <translation>User</translation>
-    </message>
-    <message>
-        <source>User value</source>
-        <translation>alice (static sample / current account)</translation>
-    </message>
-    <message>
-        <source>Seat</source>
-        <translation>Seat</translation>
-    </message>
-    <message>
-        <source>Seat value</source>
-        <translation>200 / grid 300 (seat: live /get-account-info value)</translation>
-    </message>
-    <message>
-        <source>Expire</source>
-        <translation>Expire</translation>
-    </message>
-    <message>
-        <source>Expire value</source>
-        <translation>Permanent (expire_time 2147483647 / private build)</translation>
-    </message>
-    <message>
-        <source>Pointcard</source>
-        <translation>Pointcard</translation>
-    </message>
-    <message>
-        <source>Pointcard value</source>
-        <translation>Not activated (renew: /agent_user_activate_pointcard)</translation>
-    </message>
-    <message>
-        <source>Red Packet</source>
-        <translation>Red Packet</translation>
-    </message>
-    <message>
-        <source>Cross Trading</source>
-        <translation>Cross Trading</translation>
-    </message>
-    <message>
-        <source>Mass Send DM v2</source>
-        <translation>Mass Send DM v2</translation>
-    </message>
-    <message>
-        <source>Add Contacts</source>
-        <translation>Add Contacts</translation>
-    </message>
-    <message>
-        <source>Batch Invite</source>
-        <translation>Batch Invite</translation>
-    </message>
-    <message>
-        <source>Puppet Chat v2</source>
-        <translation>Puppet Chat v2</translation>
-    </message>
-    <message>
-        <source>Translation</source>
-        <translation>Translation</translation>
-    </message>
-    <message>
-        <source>Batch Pull v2</source>
-        <translation>Batch Pull v2</translation>
-    </message>
-    <message>
-        <source>Group Manager</source>
-        <translation>Group Manager</translation>
-    </message>
-    <message>
-        <source>Workflow</source>
-        <translation>Workflow</translation>
+        <source>Mass Send</source>
+        <translation>Mass Send</translation>
     </message>
     <message>
         <source>Auto Reply</source>
         <translation>Auto Reply</translation>
     </message>
     <message>
-        <source>Client CRM Profile</source>
-        <translation>Client CRM Profile</translation>
+        <source>Watch Chat</source>
+        <translation>Watch Chat</translation>
     </message>
     <message>
-        <source>Account Hosting</source>
-        <translation>Account Hosting</translation>
+        <source>Batch Join</source>
+        <translation>Batch Join</translation>
     </message>
     <message>
-        <source>Multi-Account Manager</source>
-        <translation>Multi-Account Manager</translation>
+        <source>Batch Login</source>
+        <translation>Batch Login</translation>
     </message>
     <message>
-        <source>Anti-Link Groups</source>
-        <translation>Anti-Link Groups</translation>
+        <source>Batch Rename</source>
+        <translation>Batch Rename</translation>
     </message>
     <message>
-        <source>Avatar Cache</source>
-        <translation>Avatar Cache</translation>
+        <source>Batch Invite</source>
+        <translation>Batch Invite</translation>
     </message>
     <message>
-        <source>Multi-Account Edit State</source>
-        <translation>Multi-Account Edit State</translation>
+        <source>Filter Phone</source>
+        <translation>Filter Phone</translation>
     </message>
     <message>
-        <source>Seat Sequence</source>
-        <translation>Seat Sequence</translation>
+        <source>Filter Group</source>
+        <translation>Filter Group</translation>
     </message>
     <message>
-        <source>Todo Queue</source>
-        <translation>Todo Queue</translation>
+        <source>Video Manage</source>
+        <translation>Video Manage</translation>
     </message>
     <message>
-        <source>Pointcard Renewal</source>
-        <translation>Pointcard Renewal</translation>
+        <source>Proxy Config</source>
+        <translation>Proxy Config</translation>
     </message>
     <message>
-        <source>Notice Center</source>
-        <translation>Notice Center</translation>
+        <source>Batch Contacts</source>
+        <translation>Batch Contacts</translation>
     </message>
     <message>
-        <source>Runtime Log</source>
-        <translation>Runtime Log</translation>
+        <source>Batch Invite v2</source>
+        <translation>Batch Invite v2</translation>
+    </message>
+    <message>
+        <source>Mass DM v2</source>
+        <translation>Mass DM v2</translation>
+    </message>
+    <message>
+        <source>Puppet Chat v2</source>
+        <translation>Puppet Chat v2</translation>
+    </message>
+    <message>
+        <source>Auto Marketing</source>
+        <translation>Auto Marketing</translation>
+    </message>
+    <message>
+        <source>Keep Online</source>
+        <translation>Keep Online</translation>
+    </message>
+    <message>
+        <source>Advanced Features</source>
+        <translation>Advanced Features</translation>
+    </message>
+    <message>
+        <source>Auto Script</source>
+        <translation>Auto Script</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Settings</translation>
+    </message>
+</context>
+<context>
+    <name>ConsolePlaceholder</name>
+    <message>
+        <source>Not Implemented</source>
+        <translation>This feature is not built yet</translation>
     </message>
 </context>
 <context>

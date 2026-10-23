@@ -45,7 +45,8 @@ class AutoReplyPageWindow final : public QDialog {
 public:
 	AutoReplyPageWindow(
 		QWidget *parent,
-		not_null<Window::SessionController*> controller);
+		not_null<Window::SessionController*> controller,
+		bool embedded = false);
 
 	// Escape only hides the window, the next call reuses the instance; the
 	// title bar button destroys it, exactly like the other pages.
