@@ -103,10 +103,10 @@ constexpr auto kAutoReplyIndex = 6;
 // says the feature is not built yet. No invented form and no fake buttons.
 //
 // QLabel, not Ui::FlatLabel: the latter is an RpWidget that sizes itself only
-// through resizeGetHeight() and has no size hint, so a plain QVBoxLayout gives
-// it a width of zero, its height collapses and nothing is painted or exposed
-// to the accessibility tree. QLabel has a real size hint, and the acceptance
-// run reads the page by its text.
+// through resizeGetHeight() and has no size hint, so a plain QVBoxLayout, which
+// stretches the width but takes the height from the size hint, gave it a height
+// of zero; nothing was painted and no accessibility node existed. QLabel has a
+// real size hint, and the acceptance run reads the page by its text.
 QWidget *MakePlaceholderPage(QWidget *parent, const char *navKey) {
 	const auto page = new QWidget(parent);
 	const auto layout = new QVBoxLayout(page);
@@ -128,6 +128,7 @@ QWidget *MakePlaceholderPage(QWidget *parent, const char *navKey) {
 		bodyFont.setPointSizeF(bodyFont.pointSizeF() - 1);
 	}
 	body->setFont(bodyFont);
+	body->setWordWrap(true);
 	layout->addWidget(body);
 
 	layout->addStretch(1);
@@ -226,13 +227,12 @@ void ConsoleWindowQt::reject() {
 
 void ConsoleWindowQt::showEvent(QShowEvent *e) {
 	QDialog::showEvent(e);
-	// Both numbers of the column are computed before the window has a size:
-	// the bar of a Ui::ScrollArea is placed in the resize event of the area,
-	// and the range Qt keeps for the wheel comes from the content widget at
-	// the moment it enters the area. Neither has run with the real geometry
-	// yet, so the bar stayed hidden (updateBar() saw a zero height) and the
-	// wheel had nothing to move. Redo it here, once the layout is applied,
-	// and once more from the event loop in case the layout pass lands later.
+	// The column is built before the window has a size. The bar of a
+	// Ui::ScrollArea takes its geometry from the resize event of the area, and
+	// the decision it took there was taken with a bar that was still zero
+	// high, with nothing recomputing it afterwards. Redo it here, once the
+	// layout has been applied, and once more from the event loop in case that
+	// pass lands later.
 	refreshNav();
 	QTimer::singleShot(0, this, [=] { refreshNav(); });
 }
@@ -246,11 +246,22 @@ void ConsoleWindowQt::refreshNav() {
 		content->resizeToWidth(kNavContentWidth);
 	}
 
-	// The area computes its range from the content height itself every time it
-	// paints, so its number is the truth for this window; the Qt bar is what
-	// the wheel moves and what updateBar() measures, and it was left with the
-	// range of an empty area. Handing the same number over fixes the wheel and
-	// makes the range change run updateBar() with the real bar geometry.
+	// The bar stayed hidden because of its own height, not because of the
+	// range: the resize event of the area runs the base handler first, whose
+	// range change reaches updateBar() while the self drawn bar is still zero
+	// high, so h >= rh holds and the bar is hidden; recountSize() runs right
+	// after that and nothing calls updateBar() again, so the bar keeps a
+	// decision taken with a geometry it no longer has. updateBars() is exactly
+	// that missing call, and it reads scrollHeight(), the bar height and
+	// scrollTopMax() - never the maximum set below.
+	//
+	// The maximum of Qt's own bar is maintained by QAbstractScrollArea and
+	// already matches here, so this assignment changes nothing on this path;
+	// it stays as a guard for a caller that hands the bar a range before the
+	// area has one, since Qt's wheel handling moves that bar.
+	if (!scroll->height()) {
+		return;
+	}
 	const auto top = scroll->scrollTopMax();
 	if (scroll->verticalScrollBar()->maximum() != top) {
 		scroll->verticalScrollBar()->setMaximum(top);
@@ -265,10 +276,11 @@ void ConsoleWindowQt::setupContent() {
 
 	// Ui::VerticalLayout has no size hint at all: its height comes out of
 	// resizeGetHeight(), which only runs when a parent passes a width in. A
-	// bare QScrollArea with setWidgetResizable(true) sizes its content from
-	// sizeHint() instead, so the layout was squashed to the viewport, the rows
-	// past its bottom edge were clipped and the scroll range stayed zero.
-	// Ui::ScrollArea keeps the widget at the size the widget itself sets.
+	// plain QScrollArea with setWidgetResizable(true) would size this content
+	// from sizeHint() instead, so the layout would be squashed to the viewport,
+	// the rows past its bottom edge clipped and the scroll range left at zero.
+	// Ui::ScrollArea never enables that flag, so the widget keeps the size the
+	// widget itself sets.
 	const auto scroll = Ui::CreateChild<Ui::ScrollArea>(this, *_scrollStyle);
 	scroll->setFixedWidth(kNavWidth);
 
@@ -277,15 +289,15 @@ void ConsoleWindowQt::setupContent() {
 	buildNav(navRaw);
 
 	// The width is applied before the ownership moves into the scroll area:
-	// setWidget() resizes a widget that was never resized to its size hint,
-	// and this one only has a size once resizeToWidth() has run. The rows get
-	// the viewport width, so the bar does not paint over their right edge.
+	// this layout only gets a size once resizeToWidth() has run, and a widget
+	// that is not resizable keeps whatever size it had when it enters the
+	// area. The rows get the viewport width, so the bar does not paint over
+	// their right edge.
 	navRaw->resizeToWidth(kNavContentWidth);
 	scroll->setOwnedWidget(std::move(nav));
-	// Applied a second time now that the widget lives in the viewport: the
-	// area installs its event filter on the widget in setWidget(), and only
-	// from then on does a resize of the content update the range Qt keeps for
-	// the wheel.
+	// A no-op as things stand: the width is already the one above, so no
+	// resize event is sent. It stays because setWidget() may resize a widget
+	// that carries no size hint of its own, and this layout is one of those.
 	navRaw->resizeToWidth(kNavContentWidth);
 	layout->addWidget(scroll);
 
